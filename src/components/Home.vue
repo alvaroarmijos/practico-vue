@@ -9,7 +9,10 @@
         :date="'06 de Abril 2022'"
         :total-amount="100000"
         :amount="amount"
-      />
+      >
+        <template #graphic> graphic </template>
+        <template #action>action</template>
+      </Resume>
     </template>
     <template #movements>
       <Movements />

@@ -34,17 +34,27 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, defineEmits } from "vue";
 import Modal from "./Modal.vue";
-
 const showModal = ref(false);
 const title = ref("");
 const amount = ref(0);
 const description = ref("");
 const movementType = ref("Ingreso");
-
+const emit = defineEmits(["create"]);
 const submit = () => {
   showModal.value = !showModal.value;
+  emit("create", {
+    title: title.value,
+    description: description.value,
+    amount: movementType.value === "Ingreso" ? amount.value : -amount.value,
+    time: new Date(),
+    id: new Date(),
+  });
+  title.value = "";
+  description.value = "";
+  amount.value = 0;
+  movementType.value = "Ingreso";
 };
 </script>
 
@@ -59,27 +69,22 @@ button {
   border-radius: 60px;
   box-sizing: border-box;
 }
-
 form {
   font-size: 1.24rem;
   width: 100%;
 }
-
 form .action {
   padding: 0 24px;
 }
-
 .field {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
   padding: 16px 24px;
 }
-
 label {
   margin-bottom: 8px;
 }
-
 input,
 textarea {
   font-size: 1.24rem;
@@ -87,22 +92,18 @@ textarea {
   border-radius: 8px;
   padding: 8px;
 }
-
 input[type="number"] {
   text-align: right;
 }
-
 .radio-label {
   display: flex;
   align-items: center;
   margin-top: 8px;
 }
-
 .radio-label span {
   margin-top: 4px;
   margin-left: 8px;
 }
-
 input[type="radio"] {
   appearance: none;
   width: 1.24rem;
@@ -111,7 +112,6 @@ input[type="radio"] {
   border: 2px solid var(--brand-blue);
   border-radius: 50%;
 }
-
 input[type="radio"]:checked {
   background-color: var(--brand-blue);
 }
